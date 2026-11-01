@@ -27,8 +27,7 @@ The first version will:
 
 ## Roadmap
 
-Features you haven't built yet but plan to (pull these from your
-"Schedule" quadrant in the Eisenhower Matrix).
+Features I haven't built yet but plan to
 
 - [ ] Desktop notifications
 - [ ] Automatic location detection
