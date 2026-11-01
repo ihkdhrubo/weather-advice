@@ -17,7 +17,7 @@ The first version will:
 - Write recommendations to forecast.txt.
 - This will run through a cron job every evening at 6PM.
 
-![System diagram](flowchart.png)
+![System diagram](SystemDiagram.png)
 
 ## Tech Stack
 
