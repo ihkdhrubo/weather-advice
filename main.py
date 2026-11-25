@@ -5,6 +5,10 @@ location = []
 with open ("./location.txt", "r") as file:
     location = file.read().strip() #extracting location from file.
 
+timezone = location.split("\n")[1]
+location = location.split("\n")[0]
+
+
 params = {
     "name" : location,
     "count" : 1,
@@ -23,12 +27,16 @@ params = {
     "latitude" : latitude,
     "longitude" : longitude,
     "hourly" : ["apparent_temperature", "precipitation_probability"],
-    "forecast_days" : 1,
+    "forecast_days" : 2,
+    "timezone" : timezone
 }   
 response = requests.get("https://api.open-meteo.com/v1/forecast", params = params)
 data = response.json()
+print(data)
 forecast_temp = data["hourly"]["apparent_temperature"]
 precipitation_probability = data["hourly"]["precipitation_probability"]
+
+
 
 
 
