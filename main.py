@@ -2,6 +2,8 @@ import requests
 
 #fetching coordinates
 location = []
+THRESHOLD = 8
+jacket = False
 with open ("./location.txt", "r") as file:
     location = file.read().strip() #extracting location from file.
 
@@ -35,6 +37,12 @@ data = response.json()
 print(data)
 forecast_temp = data["hourly"]["apparent_temperature"]
 precipitation_probability = data["hourly"]["precipitation_probability"]
+
+for i in range(24, len(forecast_temp)):
+    if (forecast_temp[i] < THRESHOLD):
+        jacket = True
+        break
+        
 
 
 
