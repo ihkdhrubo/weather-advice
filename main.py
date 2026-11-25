@@ -39,8 +39,11 @@ forecast_temp = data["hourly"]["apparent_temperature"]
 precipitation_probability = data["hourly"]["precipitation_probability"]
 
 for i in range(24, len(forecast_temp)):
-    if (forecast_temp[i] < THRESHOLD):
+    if (forecast_temp[i] <= THRESHOLD):
         jacket = True
+    if (precipitation_probability[i] >= 50):
+        umbrella = True
+    if (jacket and umbrella): 
         break
         
 
