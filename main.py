@@ -35,7 +35,7 @@ params = {
 }   
 response = requests.get("https://api.open-meteo.com/v1/forecast", params = params)
 data = response.json()
-print(data)
+
 forecast_temp = data["hourly"]["apparent_temperature"]
 precipitation_probability = data["hourly"]["precipitation_probability"]
 
