@@ -18,7 +18,7 @@ def main():
     #invalid location file format
     if (len(lines) != 1):
         with open ("./forecast.txt", "w") as f:
-            f.write("location.txt must have two lines, first line must be location and second line must be timezone.")
+            f.write("location.txt must have one line with location.")
             notifier.send(title = "Error", message = "location.txt must have one line with location.")
         return 
     
