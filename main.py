@@ -9,12 +9,13 @@ def main():
 
     #fetching coordinates
     lines = []
-    THRESHOLD = 8
+    THRESHOLD = 8 #threshold for jacket set to 8 degrees celsius
     jacket = False
     umbrella = False
     with open ("./location.txt", "r") as file:
-        lines = file.read().strip().split("\n") #extracting location from file.
+        lines = file.read().strip().split("\n") #extracting lines from location file.
 
+    #invalid location file format
     if (len(lines) != 2):
         with open ("./forecast.txt", "w") as f:
             f.write("location.txt must have two lines, first line must be location and second line must be timezone.")
@@ -24,7 +25,7 @@ def main():
     location = lines[0]
     timezone = lines[1]
 
-    #params for coordinates get request
+    #parameters for open-meteo coordinates GET request
     params = {
         "name" : location,
         "count" : 1,
@@ -49,6 +50,7 @@ def main():
             notifier.send(title = "Error", message = ("error: " + reason))
             return
     else:
+        #location not found
         with open ("./forecast.txt", "w") as f:
             f.write("error: location not found")
             notifier.send(title = "Error", message = ("location not found"))
@@ -93,18 +95,21 @@ def main():
             umbrella = True
         if (jacket and umbrella): 
             break
-    #add recommendations to txt file
+    #add recommendations to forecast.txt file and send notifications
     with open ("./forecast.txt", "w") as f:
         if (jacket):
             f.write("Bring a jacket with you tomorrow\n")
             notifier.send(title = "Weather Alert", message = "Bring a jacket with you tomorrow")
         else:
             f.write("Do not bring a jacket\n")
+            notifier.send(title = "Weather Alert", message = "Do not bring a jacket with you tomorrow")
         if (umbrella):
             f.write("Bring an umbrella with you\n")
-            notifier.send(title = "Weather Alert", message = "Bring an umbrella with you")
+            notifier.send(title = "Weather Alert", message = "Bring an umbrella with you tomorrow")
         else:
             f.write("Do not bring an umbrella with you\n")
+            notifier.send(title = "Weather Alert", message = "Do not bring an umbrella with you")
+
         
 
 
