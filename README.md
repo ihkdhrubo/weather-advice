@@ -109,6 +109,54 @@ Do not bring an umbrella with you
 ![Terminal showing the city in location.txt and the resulting recommendations in forecast.txt](example-run.png)
 ![Recommendations showing on macOS desktop notification](example-notification.png)
 
+## Run Weather Advice automatically at 6 PM
+
+Complete the setup above and run the program manually once before scheduling it. The schedule uses **6:00 PM in your computer’s local time zone**. Keep the computer awake, connected to the internet, and signed in to receive desktop notifications.
+
+These examples assume your script is named `main.py` and your virtual environment is named `.venv`. If you use different names, substitute the ones that worked during your manual test.
+
+### macOS: Schedule with cron
+
+1. Open Terminal in the `weather-advice` folder. Run `pwd` and copy the full folder path it prints.
+
+2. Open your personal cron schedule:
+
+   ```bash
+   EDITOR=nano crontab -e
+   ```
+
+3. Add the following as **one line** at the bottom. Replace `/full/path/to/weather-advice` with the path you copied. Keep the quotation marks so paths with spaces work.
+
+   ```cron
+   0 18 * * * cd "/full/path/to/weather-advice" && ./.venv/bin/python main.py >> weather-cron.log 2>&1
+   ```
+
+   `0 18 * * *` means **every day at 18:00**. The `cd` command puts the script in the folder containing `location.txt`. Any output or errors from Python go into `weather-cron.log`.
+
+4. Press **Ctrl+O**, then **Enter** to save. Press **Ctrl+X** to exit. Run `crontab -l` to confirm the entry appears.
+
+5. **Test the schedule:** Temporarily change `0 18` to a minute and hour a few minutes ahead. After that time, run `ls -l forecast.txt` in the project folder and check its modification time. Restore `0 18` after testing.
+
+*If your Mac is asleep at 6 PM, cron skips that run.*
+
+### Windows: Schedule with Task Scheduler
+
+1. Open the `weather-advice` folder in File Explorer. Click the address bar and copy the full folder path.
+
+2. Open **Task Scheduler** from the Start menu and select **Create Task**. Under **General**, name the task `Weather Advice` and select **Run only when user is logged on** so notifications can appear on your desktop.
+
+3. Under **Triggers**, select **New**, choose **Daily**, set the start time to **6:00:00 PM**, and set it to recur every **1 day**. Select **OK**.
+
+4. Under **Actions**, select **New** and choose **Start a program**. Fill in all three fields:
+
+   - **Program/script:** Use **Browse** to select `.venv\Scripts\python.exe` inside the project folder.
+   - **Add arguments:** Enter `main.py`.
+   - **Start in:** Paste the full project folder path from step 1, without quotation marks. This is where Python will look for `location.txt` and write `forecast.txt`.
+
+5. If you want the task to run while your laptop is on battery, open **Conditions** and clear **Start the task only if the computer is on AC power**. Select **OK** to save.
+
+6. **Test the task:** Open **Task Scheduler Library**, right-click **Weather Advice**, and select **Run**. Check that `forecast.txt` has a new modification time and that it contains the jacket and umbrella recommendations.
+
 
 ## Roadmap
 
