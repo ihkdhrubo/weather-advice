@@ -16,14 +16,15 @@ def main():
         lines = file.read().strip().split("\n") #extracting lines from location file.
 
     #invalid location file format
-    if (len(lines) != 2):
+    if (len(lines) != 1):
         with open ("./forecast.txt", "w") as f:
             f.write("location.txt must have two lines, first line must be location and second line must be timezone.")
-            notifier.send(title = "Error", message = "location.txt must have two lines, first line must be location and second line must be timezone.")
+            notifier.send(title = "Error", message = "location.txt must have one line with location.")
         return 
     
     location = lines[0]
-    timezone = lines[1]
+    timezone = ""
+    
 
     #parameters for open-meteo coordinates GET request
     params = {
@@ -42,6 +43,7 @@ def main():
     if "results" in data: #no errors if results key in data
         latitude = data["results"][0]["latitude"] 
         longitude = data["results"][0]["longitude"]
+        timezone = data["results"][0]["timezone"]
     elif "reason" in data:
         #API fetch error
         reason = data["reason"]
