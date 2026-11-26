@@ -1,6 +1,11 @@
 import requests
+from desktop_notifier.sync import DesktopNotifierSync
+
+
 
 def main():
+    notifier = DesktopNotifierSync()
+
 
     #fetching coordinates
     lines = []
@@ -13,6 +18,7 @@ def main():
     if (len(lines) != 2):
         with open ("./forecast.txt", "w") as f:
             f.write("location.txt must have two lines, first line must be location and second line must be timezone.")
+            notifier.send(title = "Error", message = "location.txt must have two lines, first line must be location and second line must be timezone.")
         return 
     
     location = lines[0]
@@ -40,10 +46,12 @@ def main():
         reason = data["reason"]
         with open ("./forecast.txt", "w") as f:
             f.write("error: " + reason)
+            notifier.send(title = "Error", message = ("error: " + reason))
             return
     else:
         with open ("./forecast.txt", "w") as f:
             f.write("error: location not found")
+            notifier.send(title = "Error", message = ("location not found"))
             return
 
 
@@ -72,6 +80,7 @@ def main():
         reason = data["reason"]
         with open ("./forecast.txt", "w") as f:
             f.write("error: " + reason)
+            notifier.send(title = "Error", message = reason)
             return
         
     
@@ -88,10 +97,12 @@ def main():
     with open ("./forecast.txt", "w") as f:
         if (jacket):
             f.write("Bring a jacket with you tomorrow\n")
+            notifier.send(title = "Weather Alert", message = "Bring a jacket with you tomorrow")
         else:
             f.write("Do not bring a jacket\n")
         if (umbrella):
             f.write("Bring an umbrella with you\n")
+            notifier.send(title = "Weather Alert", message = "Bring an umbrella with you")
         else:
             f.write("Do not bring an umbrella with you\n")
         
