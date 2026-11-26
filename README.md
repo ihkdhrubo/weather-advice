@@ -107,6 +107,8 @@ Do not bring an umbrella with you
 - **Umbrella:** Bring one if any hour tomorrow has a precipitation probability of **50% or higher**.
 
 ![Terminal showing the city in location.txt and the resulting recommendations in forecast.txt](example-run.png)
+![Recommendations showing on macOS desktop notification]
+(example-notification.png)
 
 
 ## Roadmap
