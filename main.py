@@ -4,6 +4,7 @@ import requests
 location = []
 THRESHOLD = 8
 jacket = False
+umbrella = False
 with open ("./location.txt", "r") as file:
     location = file.read().strip() #extracting location from file.
 
@@ -38,6 +39,7 @@ print(data)
 forecast_temp = data["hourly"]["apparent_temperature"]
 precipitation_probability = data["hourly"]["precipitation_probability"]
 
+#jacket and umbrella recommendations
 for i in range(24, len(forecast_temp)):
     if (forecast_temp[i] <= THRESHOLD):
         jacket = True
@@ -45,6 +47,18 @@ for i in range(24, len(forecast_temp)):
         umbrella = True
     if (jacket and umbrella): 
         break
+#add recommendations to txt file
+with open ("./forecast.txt", "w") as f:
+    if (jacket):
+        f.write("Bring a jacket with you tomorrow\n")
+    else:
+        f.write("Do not bring a jacket\n")
+    if (umbrella):
+        f.write("Bring an umbrella with you\n")
+    else:
+        f.write("Do not bring an umbrella with you\n")
+    
+
         
 
 
